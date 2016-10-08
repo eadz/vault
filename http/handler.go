@@ -288,6 +288,13 @@ func respondError(w http.ResponseWriter, status int, err error) {
 	}
 
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Headers", "x-vault-token")
+
+	if(status == http.StatusMethodNotAllowed) {
+		status = 200
+	}
+
 	w.WriteHeader(status)
 
 	resp := &ErrorResponse{Errors: make([]string, 0, 1)}
@@ -340,6 +347,8 @@ func respondErrorCommon(w http.ResponseWriter, resp *logical.Response, err error
 
 func respondOk(w http.ResponseWriter, body interface{}) {
 	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Headers", "x-vault-token")
 
 	if body == nil {
 		w.WriteHeader(http.StatusNoContent)

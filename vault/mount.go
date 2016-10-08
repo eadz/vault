@@ -662,7 +662,22 @@ func requiredMountTable() *MountTable {
 		Description: "system endpoints used for control, policy and debugging",
 		UUID:        sysUUID,
 	}
+
+	totpMountUUID, err := uuid.GenerateUUID()
+	if err != nil {
+		panic(fmt.Sprintf("could not create totp UUID: %v", err))
+	}
+	totpMount := &MountEntry{
+		Table:       mountTableType,
+		Path:        "totp/",
+		Type:        "totp",
+		Description: "totp secret storage",
+		UUID:        totpMountUUID,
+	}
+
+
 	table.Entries = append(table.Entries, cubbyholeMount)
 	table.Entries = append(table.Entries, sysMount)
+	table.Entries = append(table.Entries, totpMount)
 	return table
 }

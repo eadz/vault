@@ -444,6 +444,7 @@ func NewCore(conf *CoreConfig) (*Core, error) {
 	if !ok {
 		logicalBackends["generic"] = PassthroughBackendFactory
 	}
+	logicalBackends["totp"] = TotpBackendFactory
 	logicalBackends["cubbyhole"] = CubbyholeBackendFactory
 	logicalBackends["system"] = func(config *logical.BackendConfig) (logical.Backend, error) {
 		return NewSystemBackend(c, config)
